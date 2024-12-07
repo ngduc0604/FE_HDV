@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glasses Shop</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/style2.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+
+
+</head>
+
+
+<body>
+  <!-- Header -->
+  <header class="bg-light shadow-sm">
+    <div class="container d-flex align-items-center justify-content-between py-3">
+      <a href="home-page.html" class="navbar-brand d-flex align-items-center">
+        <img src="assets\img\logo.png" alt="Logo" class="me-2" height="50px" width="50px">
+        <h1 class="fs-4 m-0">Minh Anh Glasses</h1>
+      </a>
+      <nav class="d-none d-md-flex align-items-center justify-content-center">
+        <a href="home-page.html" class="nav-link px-3">Trang chủ</a>
+        <a href="list_product.html" class="nav-link px-3">Sản Phẩm</a>
+        <a href="#about" class="nav-link px-3">Về chúng tôi</a>
+        <a href="#contact" class="nav-link px-3">kết nối</a>
+        <a href="cart.html" class="nav-link px-3">Giỏ hàng</a>
+      </nav>
+      
+      <div>
+        <a href="pages-login.html" class="btn btn-primary">Đăng nhập</a>
+        <a href="pages-register.html" class="btn btn-danger">Đăng kí</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="image-container">
+    <img src="assets/img/page1.png" alt="Image 1" class="image" id="image1">
+    <img src="assets/img/cover2.jpg" alt="Image 2" class="image" id="image2">
+</div>
+
+
+  <section class="ftco-section">
+    <div class="features-section">
+      <div class="feature-item">
+        <div class="feature-icon" style="background-color: #ffd2ff;">
+          <i class="bi bi-truck"></i>
+        </div>
+        <h4>Miễn phí vận chuyển</h4>
+        <p>Đơn hàng từ 500K</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background-color: #b5e2f1;">
+          <i class="bi bi-bookmark-star-fill"></i>
+        </div>
+        <h4>Chất lượng vượt trội</h4>
+        <p>Chất lượng sản phẩm</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background-color: #f8fbc8;">
+          <i class="bi bi-telephone"></i>
+        </div>
+        <h4>Hỗ trợ</h4>
+        <p>Hỗ trợ 24/7</p>
+      </div>
+    </div>
+    
+    <script>
+      // JavaScript để chuyển đổi giữa hai ảnh sau mỗi vài giây
+let currentImageIndex = 0;
+const images = document.querySelectorAll('.image');
+const switchTime = 3000; // Thời gian chuyển ảnh (3 giây)
+
+function switchImages() {
+    // Ẩn ảnh hiện tại
+    images[currentImageIndex].style.opacity = 0;
+
+    // Cập nhật index để chuyển ảnh tiếp theo
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+
+    // Hiển thị ảnh tiếp theo
+    images[currentImageIndex].style.opacity = 1;
+}
+
+// Chuyển đổi ảnh mỗi 3 giây
+setInterval(switchImages, switchTime);
+    </script>
+  </section>
+  
+  <!-- Products Section -->
+  <section id="products" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Our Best Sellers</h2>
+      <div class="row g-4" id="product-list"> 
+
+      </div>
+    </div>
+  </section>
+
+  <!-- <div class="container4">
+    <div class="row">
+    </div>
+  </div> -->
+
+  <!-- Footer -->
+
+<section>
+  <div class="footer-top">
+    <div class="footer-item">
+        <img src="assets/img/icon-shipping.jpg" alt="Miễn phí vận chuyển">
+        <p><strong>Miễn phí vận chuyển</strong><br>Miễn phí đơn hàng từ 250k</p>
+    </div>
+    <div class="footer-item">
+        <img src="assets/img/icon-return.jpg" alt="Đổi trả dễ dàng">
+        <p><strong>Đổi trả dễ dàng</strong><br>Đổi trả hàng sau 7 ngày nếu không vừa ý</p>
+    </div>
+    <div class="footer-item">
+        <img src="assets/img/suport.jpg" alt="Hỗ trợ 24/7">
+        <p><strong>Hỗ trợ 24/7</strong><br>Gọi hotline để được tư vấn</p>
+    </div>
+    <div class="footer-item">
+        <img src="assets/img/pay.png" alt="Thanh toán đa dạng">
+        <p><strong>Thanh toán đa dạng</strong><br>Nhiều phương thức thanh toán linh động</p>
+    </div>
+</div>
+</section>
+
+<footer>
+    <div class="footer-bottom">
+        <div class="footer-column">
+            <h3>Về Kính Mắt Minh Anh</h3>
+            <p>Kính mắt Minh Anh là thương hiệu 20 năm trong lĩnh vực phân phối các loại kính mắt nhập khẩu chính hãng.</p>
+            <div class="social-icons">
+                <a href="#"><i class="bi bi-facebook" ></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+                <a href="#"><i class="bi bi-tiktok"></i></a>
+            </div>
+        </div>
+        <div class="footer-column">
+            <h3>Thông tin liên hệ</h3>
+            <p><strong>Địa chỉ:</strong> Số 122 Cầu diễn, phường Minh Khai, quận Bắc Từ Liêm, Hà Nội</p>
+            <p><strong>Người phụ trách:</strong> Nguyễn Văn Đức</p>
+            <p><strong>Điện thoại:</strong> 0988.686.868</p>
+            <p><strong>Email:</strong> minhanhkinhmat.official@gmail.com</p>
+        </div>
+        <div class="footer-column">
+            <h3>Nhóm liên kết</h3>
+            <ul>
+                <li><a href="#">Giới thiệu</a></li>
+                <li><a href="#">Chính sách đổi trả</a></li>
+                <li><a href="#">Chính sách bảo mật</a></li>
+                <li><a href="#">Điều khoản dịch vụ</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Đăng ký nhận tin</h3>
+            <p>Để cập nhật những sản phẩm mới, nhận thông tin ưu đãi đặc biệt và thông tin giảm giá khác tại Kính Mắt Minh Anh</p>
+            <form action="#" method="post" class="subscribe-form">
+                <input type="email" placeholder="Nhập email của bạn" required>
+                <button type="submit">ĐĂNG KÝ</button>
+            </form>
+        </div>
+    </div>
+</footer>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/homepage.js"></script>
+</body>
+</html>
