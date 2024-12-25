@@ -130,3 +130,5 @@
 
   // Gọi hàm để tải dữ liệu khi trang load
   document.addEventListener('DOMContentLoaded', fetchProducts);
+
+  

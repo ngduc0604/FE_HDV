@@ -13,6 +13,7 @@
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link
@@ -133,13 +134,14 @@
           <i class="bi bi-journal-bookmark"></i>
           <span>Products</span>
         </a>
-      </li><!-- End Dashboard Nav -->
-      <li class="nav-item">
+      </li>
+        <li class="nav-item">
         <a class="nav-link " href="order.html">
           <i class="bi bi-bag-heart-fill"></i>
           <span>Orders</span>
         </a>
       </li>
+      <!-- End Dashboard Nav -->
 
       <li class="nav-item">
       <li class="nav-heading">Pages</li>
@@ -189,7 +191,7 @@
           <div class="row">
 
             <!-- Total Card -->
-            <div class="col-xxl-4 col-md-6">
+            <!-- <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
                 <div class="card-body">
                   <h5 class="card-title">Total</h5>
@@ -200,16 +202,32 @@
                     </div>
                     <div class="ps-3">
                       <h6 id="Total">...</h6>
+                      <span class="text-success small pt-1 fw-bold">12%</span> <span
+                        class="text-muted small pt-2 ps-1">increase</span>
                     </div>
                   </div>
                 </div>
 
               </div>
-            </div><!-- End Sales Card -->
+            </div> -->
+            <!-- End Sales Card -->
 
             <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
+            <!-- <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
 
                 <div class="card-body">
                   <h5 class="card-title">New Products</h5>
@@ -225,15 +243,29 @@
                 </div>
 
               </div>
-            </div><!-- End Revenue Card -->
+            </div> -->
+            <!-- End Revenue Card -->
 
             <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
+            <!-- <div class="col-xxl-4 col-xl-12">
 
               <div class="card info-card customers-card">
 
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+
                 <div class="card-body">
-                  <h5 class="card-title">Customers<span>| This Year</span></h5>
+                  <h5 class="card-title">Customers <span>| This Year</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -241,30 +273,51 @@
                     </div>
                     <div class="ps-3">
                       <h6>1244</h6>
+                      <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                        class="text-muted small pt-2 ps-1">decrease</span>
+
                     </div>
                   </div>
 
                 </div>
               </div>
 
-            </div><!-- End Customers Card -->
+            </div> -->
+            <!-- End Customers Card -->
 
-            <div><a class="btn btn-outline-primary" role="button" href="product-create.html">Create Product</a></div>
-            <!-- Product list -->
+            <!-- Reports -->
+            <div class="col-12">
+                <div class="card">
+  
+                  <div class="card-body">
+                    <h5 class="card-title">Reports <span>/Month</span></h5>
+  
+  
+                    <div id="reportsChart"></div>
+
+                    
+                  </div>
+  
+                </div>
+              </div>
+
+
+            <!-- <div><a class="btn btn-outline-primary" role="button" href="order-create.html">Create Order</a></div> -->
+            <!-- Order list -->
             <div class="col-12">
               <div class="card recent-sales overflow-auto">
 
                 <div class="card-body">
-                  <h5 class="card-title">Product List</h5>
+                  <h5 class="card-title">Order List</h5>
 
-                  <table class="table table-borderless datatable" id="product_list">
+                  <table class="table table-borderless datatable" id="order_list">
                     <thead>
                       <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Img</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Stock</th>
+                        <th scope="col">OrderID</th>
+                        <th scope="col">OrderDate</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">CustomerID</th>
+                        <th scope="col">TotalMoney</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -272,7 +325,7 @@
                   </table>
                 </div>
               </div>
-            </div><!-- End Product List -->
+            </div><!-- End Order List -->
             <nav aria-label="Page navigation example">
               <ul class="pagination justify-content-center" id="pagination">
               </ul>
@@ -281,46 +334,43 @@
           </div>
 
 
+          <div class="modal fade" id="editOrderModal" tabindex="-1" role="dialog" aria-labelledby="editOrderModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="editOrderModalLabel">Chỉnh sửa đơn hàng</h5>
+                </div>
+                <div class="modal-body">
+                  <form id="edit-order-form">
+                    <div class="row mb-3">
+                      <label for="status">Status</label>
+                      <select class="form-select" id="editstatus" name="sellist1">
+                          <option>Shipped</option>
+                          <option>Pending</option>
+                          <option>Delivered</option>
+                          <option>Cancelled</option>
+                          <option>Completed</option>
+                        </select>                    
+                  </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#editOrderModal').modal('hide');" >Đóng</button>
+                      <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+         
+
+
 
         </div><!-- End Left side columns -->
 
       </div>
 
     </section>
-
-    <!-- Modal -->
-<div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editProductModalLabel">Chỉnh sửa sản phẩm</h5>
-      </div>
-      <div class="modal-body">
-        <form id="edit-product-form">
-          <div class="form-group" >
-            <label for="editName">Tên sản phẩm</label>
-            <input type="text" class="form-control" id="editName">
-          </div>
-          <div class="form-group">
-            <label for="editPrice">Giá</label>
-            <input type="text" class="form-control" id="editPrice">
-          </div>
-          <div class="form-group">
-            <label for="editStock">Số lượng</label>
-            <input type="text" class="form-control" id="editStock">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#editProductModal').modal('hide');" >Đóng</button>
-            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
 
   </main><!-- End #main -->
 
@@ -351,8 +401,9 @@
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
+
   <!-- Template Main JS File -->
-  <script src="assets/js/product_ad.js"></script>
+  <script src="assets/js/order.js"></script>
 
 </body>
 
