@@ -29,9 +29,10 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
       .then(data => {
         if (data.message === "Login successful") {
           // Lưu thông tin người dùng và vai trò vào localStorage
-          localStorage.setItem("token", "Bearer " + data.token); // Nếu API trả về token
           localStorage.setItem("role", data.role); // Lưu vai trò
           localStorage.setItem("customer", JSON.stringify(data.customers)); // Lưu thông tin customer
+          localStorage.setItem("customer", JSON.stringify(data.customers)); // Lưu thông tin customer
+          localStorage.setItem('loggedInUser',"loggedInUser");
   
           // Chuyển hướng người dùng đến trang phù hợp với vai trò
           if (data.role === "Admin") {

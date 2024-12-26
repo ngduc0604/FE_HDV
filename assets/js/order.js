@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
       try {
         const response = await fetch('http://localhost:9090/getOrders');
         const data = await response.json();
-        console.log(data); // Kiểm tra dữ liệu trả về từ API
+        
     
         orders = data;
         displayOrders(orders); // Truyền orders vào hàm displayOrders
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
         viewButton.textContent = 'Xem chi tiết';
         viewButton.classList.add('btn', 'btn-primary', 'btn-sm');
         viewButton.addEventListener('click', function () {
-            window.location.href = `orderdetail.html?orderId=${order.orderId}`; // Chuyển đến trang chi tiết đơn hàng
+            window.location.href = `orderdetail.html?orderId=${order.order_id}`; // Chuyển đến trang chi tiết đơn hàng
         });
         cellActions.appendChild(viewButton);
         row.appendChild(cellActions);
@@ -111,17 +111,20 @@ document.addEventListener('DOMContentLoaded', function () {
           $('#editOrderModal').modal('show'); // Hiển thị modal
       }   
   }
-  async function fetchAndDisplayTotalQuantity() {
-    try {
-      const response = await fetch('http://localhost:9090/getQuantity');
-      const data = await response.json();
-      const totalQuantityElement = document.getElementById('Total');
-      totalQuantityElement.innerText = `${data.totalQuantity}`;
-    } catch (error) {
-      console.error('Error fetching the total quantity:', error);
-    }
-  }
-  fetchAndDisplayTotalQuantity();
+
+  // async function fetchAndDisplayTotalQuantity() {
+  //   try {
+  //     const response = await fetch('http://localhost:9090/getQuantity');
+  //     const data = await response.json();
+  //     const totalQuantityElement = document.getElementById('Total');
+  //     totalQuantityElement.innerText = `${data.totalQuantity}`;
+  //   } catch (error) {
+  //     console.error('Error fetching the total quantity:', error);
+  //   }
+  // }
+  // fetchAndDisplayTotalQuantity();
+
+
   async function updateOrder(event) {
     event.preventDefault();
     const newStatus = document.getElementById('editstatus').value;
@@ -153,31 +156,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // Hàm để hủy chỉnh sửa
     function cancelEdit() {
       $('#editOrderModal').modal('hide'); // Ẩn modal
-      currentEditOrderId = null;
+      // currentEditOrderId = null;
     }
-  
-    // async function deleteOrder(orderId) {
-    //   const confirmed = confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');
-    //   if (confirmed) {
-    //       try {
-    //           const response = await fetch(`http://localhost:9090/deleteOrder/${orderId}`, {
-    //               method: 'DELETE'
-    //           });
-    //           if (response.ok) {
-    //               orders = orders.filter(p => p.order_id !== orderId);
-    //               displayOrders();
-    //               location.reload();
-    //               setupPagination();
-    //           } else {
-    //               console.error('Failed to delete order');
-    //           }
-    //       } catch (error) {
-    //           console.error('Error deleting order:', error);
-    //       }
-    //   }
-    // }
-  
-    // Gọi hàm để lấy dữ liệu từ API và hiển thị sản phẩm
     document.getElementById('edit-order-form').addEventListener('submit', updateOrder);
     fetchOrders();
   });
@@ -185,23 +165,6 @@ document.addEventListener('DOMContentLoaded', function () {
   
   
   // ham them moi 
-  
-  async function fetchNewProducts() {
-    try {
-    
-      const response = await fetch('http://localhost:9090/getProductInMonth');
-      const data = await response.json();
-  
-      const newProductElement = document.getElementById('newProduct');
-      newProductElement.innerText = `${data.numberOfProducts}`;
-    } catch (error) {
-      console.error('Error fetching new products:', error);
-    }
-  }
-  fetchNewProducts();
-  
-  
-  
   
   
   async function fetchRevenueData() {
@@ -280,37 +243,56 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener("DOMContentLoaded", () => {
     fetchRevenueData();  // Lấy dữ liệu từ API khi trang được tải
   });
+
   
+  document.addEventListener('DOMContentLoaded', () => {
+    // Kiểm tra trạng thái đăng nhập trong localStorage
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    const role = localStorage.getItem("role");
+    // Nếu không có thông tin đăng nhập, chuyển hướng về trang chủ
+    if (!loggedInUser||role==='User') {
+        alert("Only use for Admin");
+        window.location.href = 'home-page.html';
+    }
+  });
   
+  document.addEventListener('DOMContentLoaded', () => {
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    const accountIcon = document.getElementById('accountIcon');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const menuItems = document.getElementById('menuItems');
   
-  // const urlParams = new URLSearchParams(window.location.search);
-  // const orderId = urlParams.get('orderId'); // Giả sử URL có dạng: orderdetail.html?orderId=1
+    if (loggedInUser) {
+      const customerData = localStorage.getItem('customer');
+      const customer = JSON.parse(customerData);
+      accountIcon.innerHTML = `
+              <i class="bi bi-person-circle"> </i>
+              
+              <span style="margin-left :5px">  ${customer.name}</span>
+          `;
   
-  // if (orderId) {
-  //     // Gọi API để lấy thông tin chi tiết đơn hàng
-  //     fetch(`http://localhost:9090/getorderdetail/${orderId}`)
-  //         .then(response => response.json())
-  //         .then(data => {
-  //             // Hiển thị thông tin đơn hàng
-  //             document.getElementById('order-id').textContent = data.order_id;
-  //             document.getElementById('order-date').textContent = data.order_date;
-  //             document.getElementById('order-status').textContent = data.status;
-  //             document.getElementById('customer-name').textContent = data.customer.name;
-  //             document.getElementById('customer-email').textContent = data.customer.email;
+      menuItems.innerHTML = `
+              <li><a href="account-info.html">Thông tin tài khoản</a></li>
+              <li><a href="order-history.html">Đơn hàng</a></li>
+              <li><a href="home-page.html" id="logoutBtn">Đăng xuất</a></li>
+          `;
   
-  //             // Hiển thị danh sách sản phẩm
-  //             const productList = document.getElementById('product-list');
-  //             data.products.forEach(product => {
-  //                 const li = document.createElement('li');
-  //                 li.classList.add('list-group-item');
-  //                 li.innerHTML = `<strong>${product.productName}</strong> - Số lượng: ${product.productQuantity} - Tổng: ${product.total.toLocaleString()} VND`;
-  //                 productList.appendChild(li);
-  //             });
-  //         })
-  //         .catch(error => {
-  //             console.error('Lỗi khi lấy dữ liệu đơn hàng:', error);
-  //             alert('Không thể lấy thông tin đơn hàng. Vui lòng thử lại.');
-  //         });
-  // } else {
-  //     alert('Không có mã đơn hàng!');
-  // }
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        localStorage.removeItem('loggedInUser'); // Xóa thông tin đăng nhập
+        localStorage.removeItem('role');
+        localStorage.removeItem('customer');
+        window.location.href = 'home-page.html'; // Chuyển hướng về trang chủ
+      });
+  
+    } else {
+      accountIcon.innerHTML = `
+        <i class="bi bi-person-circle"></i>
+              <span>Tài khoản</span>
+          `;
+  
+      menuItems.innerHTML = `
+              <li><a href="pages-login.html">Đăng nhập</a></li>
+              <li><a href="pages-register.html">Đăng ký</a></li>
+          `;
+    }
+  });

@@ -32,7 +32,7 @@ async function fetchAndDisplayTotalOrderInMonth() {
     const totalQuantityElement = document.getElementById('getTotalOrderInAMonth');
     totalQuantityElement.innerText = `${data.totalOrder}`;
   } catch (error) {
-    console.error( error);
+    console.error(error);
   }
 }
 fetchAndDisplayTotalOrderInMonth();
@@ -49,7 +49,7 @@ async function fetchAndDisplayNumberOfCustomer() {
     const totalcuss = document.getElementById('NumberOfCustomer');
     totalcuss.innerText = `${data.NumberOfCustomer}`;
   } catch (error) {
-    console.error( error);
+    console.error(error);
   }
 }
 fetchAndDisplayNumberOfCustomer();
@@ -85,12 +85,58 @@ function displayProducts(products) {
 fetchTop5Products();
 //end san pham ban chay
 
+document.addEventListener('DOMContentLoaded', () => {
+  // Kiểm tra trạng thái đăng nhập trong localStorage
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  const role = localStorage.getItem("role");
+  // Nếu không có thông tin đăng nhập, chuyển hướng về trang chủ
+  if (!loggedInUser || role === 'User') {
+    alert("Only use for Admin");
+    window.location.href = 'home-page.html';
+  }
+});
 
 
+document.addEventListener('DOMContentLoaded', () => {
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  const accountIcon = document.getElementById('accountIcon');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  const menuItems = document.getElementById('menuItems');
 
+  if (loggedInUser) {
+    const customerData = localStorage.getItem('customer');
+    const customer = JSON.parse(customerData);
+    accountIcon.innerHTML = `
+            <i class="bi bi-person-circle"> </i>
+            
+            <span style="margin-left :5px">  ${customer.name}</span>
+        `;
 
+    menuItems.innerHTML = `
+            <li><a href="account-info.html">Thông tin tài khoản</a></li>
+            <li><a href="order-history.html">Đơn hàng</a></li>
+            <li><a href="home-page.html" id="logoutBtn">Đăng xuất</a></li>
+        `;
 
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser'); // Xóa thông tin đăng nhập
+      localStorage.removeItem('role');
+      localStorage.removeItem('customer');
+      window.location.href = 'home-page.html'; // Chuyển hướng về trang chủ
+    });
 
+  } else {
+    accountIcon.innerHTML = `
+			<i class="bi bi-person-circle"></i>
+            <span>Tài khoản</span>
+        `;
+
+    menuItems.innerHTML = `
+            <li><a href="pages-login.html">Đăng nhập</a></li>
+            <li><a href="pages-register.html">Đăng ký</a></li>
+        `;
+  }
+});
 
 
 

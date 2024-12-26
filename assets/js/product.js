@@ -35,23 +35,18 @@
       productDiv.className = 'col-md-3 mb-4';
       productDiv.innerHTML = `
         <div class="product-card">
-          <img src="${product.imgFileName}" alt="${product.name}" class="img-fluid">
-          <h6>${product.name}</h6>
+        
+    					<a style="text-decoration: none;" href="detail.html?id=${product.id}" class="img-prod"><img class="img-fluid" src="${product.imgFileName}" alt="Colorlib Template">
+    						<div class="overlay"></div>
+    					</a>
+
+          <a style="text-decoration: none; color:black;" href="detail.html?id=${product.id}"> ${product.name} d</a>  
           <p>${product.price.toLocaleString()} VND</p>
-          <div class="action-buttons">
-            <button class="btn btn-primary btn-sm">
-              <i class="bi bi-bag-fill"></i> Mua ngay
-            </button>
-            <button class="btn btn-secondary btn-sm">
-              <i class="bi bi-cart-plus"></i> Thêm vào giỏ
-            </button>
-          </div>
         </div>
       `;
       productGrid.appendChild(productDiv);
     });
   }
-
   // Hàm hiển thị phân trang
   function renderPagination() {
     pagination.innerHTML = ""; // Xóa nội dung cũ
@@ -131,4 +126,88 @@
   // Gọi hàm để tải dữ liệu khi trang load
   document.addEventListener('DOMContentLoaded', fetchProducts);
 
-  
+  async function addToCart() {
+    // Lấy thông tin product_id và quantity từ trang chi tiết sản phẩm
+    console.log(2);
+    const pr_id=parseInt(productId);
+    const quantity = 1;
+
+    // Lấy thông tin customer từ localStorage
+    const customerData = localStorage.getItem('customer');
+    if (!customerData) {
+        alert('Vui lòng đăng nhập để thực hiện');
+        window.location.href='pages-login.html';
+        return;
+    }
+
+    const customer = JSON.parse(customerData);
+    const customers_id = customer.customer_id;
+    
+    console.log(customers_id,pr_id,quantity);
+
+    try {
+        const response = await fetch('http://localhost:9090/addToCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                quantity: quantity,
+                product_id: pr_id,
+                customers_id: customers_id
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Yêu cầu mạng không thành công');
+        }
+
+        // Hiển thị thông báo thêm thành công
+        alert('Đã thêm vào giỏ hàng thành công!');
+
+    } catch (error) {
+        console.error('Lỗi:', error);
+        alert('Đã xảy ra lỗi khi thêm vào giỏ hàng.');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+	const loggedInUser = localStorage.getItem('loggedInUser');
+    const accountIcon = document.getElementById('accountIcon');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const menuItems = document.getElementById('menuItems');
+
+    if (loggedInUser) {
+		const customerData = localStorage.getItem('customer');
+		const customer = JSON.parse(customerData);
+        accountIcon.innerHTML = `
+            <i class="bi bi-person-circle"></i>
+            <span style="margin-left :5px">${customer.name}</span>
+        `;
+
+        menuItems.innerHTML = `
+            <li><a href="account-info.html">Thông tin tài khoản</a></li>
+            <li><a href="order-history.html">Đơn hàng</a></li>
+            <li><a href="home-page.html" id="logoutBtn">Đăng xuất</a></li>
+        `;
+
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('loggedInUser'); // Xóa thông tin đăng nhập
+			localStorage.removeItem('role');
+			localStorage.removeItem('customer');
+            window.location.href = 'home-page.html'; // Chuyển hướng về trang chủ
+        });
+
+    } else {
+        accountIcon.innerHTML = `
+			<i class="bi bi-person-circle"></i>
+            <span  style="margin-left :5px">  Tài khoản</span>
+        `;
+        
+        menuItems.innerHTML = `
+            <li><a href="pages-login.html">Đăng nhập</a></li>
+            <li><a href="pages-register.html">Đăng ký</a></li>
+        `;
+    }
+});

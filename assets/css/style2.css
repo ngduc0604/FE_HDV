@@ -417,8 +417,8 @@ footer {
     -webkit-box-shadow: 0px 7px 15px -5px rgba(0, 0, 0, 0.07);
     -moz-box-shadow: 0px 7px 15px -5px rgba(0, 0, 0, 0.07);
     box-shadow: 0px 7px 15px -5px rgba(0, 0, 0, 0.07); }
-    .product:hover .pricing {
-      opacity: 0; }
+    /* .product:hover .pricing {
+      opacity: 0; } */
     .product:hover .text .bottom-area {
       opacity: 1; }
 
@@ -561,3 +561,66 @@ footer {
   margin-right: -15px;
   margin-left: -15px; }
   
+
+
+/* styles.css */
+
+.account-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.account-icon {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.account-icon img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.account-menu:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu ul li {
+  padding: 10px;
+}
+
+.dropdown-menu ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.oderhis{
+  margin-left: 10px;
+}
+
+.container1 {
+  width: 90%;
+  max-width: 1200px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

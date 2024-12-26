@@ -320,3 +320,124 @@ table img {
     text-align: right;
     margin-top: 20px;
 }
+
+
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container1 {
+    width: 80%;
+    margin: auto;
+}
+
+.account-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.account-icon {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.account-icon img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-menu ul li {
+    padding: 10px;
+}
+
+.dropdown-menu ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-controls button {
+    padding: 0 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.quantity-controls input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    margin: 0 5px;
+}
+
+.account-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.account-icon {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.account-icon img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.account-menu:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu ul li {
+  padding: 10px;
+}
+
+.dropdown-menu ul li a {
+  text-decoration: none;
+  color: #333;
+}

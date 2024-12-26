@@ -222,3 +222,49 @@ header {
       pointer-events: none;
       opacity: 0.5;
     }
+
+    .account-menu {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .account-icon {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    
+    .account-icon img {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+    
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #fff;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+    
+    .account-menu:hover .dropdown-menu {
+      display: block;
+    }
+    
+    .dropdown-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .dropdown-menu ul li {
+      padding: 10px;
+    }
+    
+    .dropdown-menu ul li a {
+      text-decoration: none;
+      color: #333;
+    }
