@@ -211,3 +211,70 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 });
+
+
+//Hiện thị sản phẩm lọc theo giá
+
+document.addEventListener('DOMContentLoaded', function () {
+  const searchForm = document.getElementById('search-form');
+  const responseMessage = document.getElementById('response-message');
+
+  searchForm.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    
+    // Lấy giá trị từ input
+    const minPriceInput = document.getElementById('minPrice').value;
+    const maxPriceInput = document.getElementById('maxPrice').value;
+
+    // Nếu không nhập, đặt giá trị mặc định
+    const minPrice = minPriceInput ? parseFloat(minPriceInput) : null;
+    const maxPrice = maxPriceInput ? parseFloat(maxPriceInput) : null;
+
+    // Kiểm tra tính hợp lệ (minPrice phải <= maxPrice nếu cả hai đều tồn tại)
+    if (minPrice !== null && maxPrice !== null && minPrice > maxPrice) {
+      responseMessage.textContent = 'Giá thấp nhất không được lớn hơn giá cao nhất!';
+      responseMessage.className = 'text-danger';
+      return;
+    }
+
+    // Xây dựng URL API với minPrice và maxPrice có hoặc không có
+    let apiUrl = 'http://localhost:9090/productPrice';
+    const params = [];
+    if (minPrice !== null) params.push(`minPrice=${minPrice}`);
+    if (maxPrice !== null) params.push(`maxPrice=${maxPrice}`);
+    if (params.length > 0) apiUrl += `?${params.join('&')}`;
+
+    console.log("API URL:", apiUrl); // In ra URL để kiểm tra
+
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error('Không thể kết nối đến API.');
+      }
+
+      const data = await response.json();
+      products = data; // Cập nhật biến products toàn cục
+      currentPage = 1; // Reset về trang đầu tiên sau khi lọc
+      renderProducts(); // Hiển thị sản phẩm
+      renderPagination(); // Hiển thị phân trang
+
+      if (products.length > 0) {
+        responseMessage.textContent = `${products.length} sản phẩm được tìm thấy.`;
+        responseMessage.className = 'text-success';
+      } else {
+        responseMessage.textContent = 'Không tìm thấy sản phẩm nào phù hợp.';
+        responseMessage.className = 'text-warning';
+      }
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+      responseMessage.textContent = 'Có lỗi xảy ra khi tìm kiếm sản phẩm.';
+      responseMessage.className = 'text-danger';
+    }
+  });
+});
+//Kết thúc hiện thị lọc sản phẩm theo giá
+
+
+
+  // Gọi hàm để tải dữ liệu khi trang load
+  document.addEventListener('DOMContentLoaded', fetchProducts);

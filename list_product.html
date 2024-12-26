@@ -34,10 +34,29 @@
       </header>
 
       <div class="container mt-5">
+        <!--Lọc sản phẩm theo giá-->
+          <div>
+            <h2>Tìm sản phẩm theo khoảng giá</h2>
+            <form id="search-form" class="mb-3">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="minPrice" class="form-label">Giá thấp nhất</label>
+                  <input type="number" id="minPrice" class="form-control" placeholder="Nhập giá thấp nhất">
+                </div>
+                <div class="col-md-4">
+                  <label for="maxPrice" class="form-label">Giá cao nhất</label>
+                  <input type="number" id="maxPrice" class="form-control" placeholder="Nhập giá cao nhất">
+                </div>
+                <div class="col-md-4 align-self-end">
+                  <button type="submit" class="btn btn-primary">Lọc</button>
+                </div>
+              </div>
+            </form>
+            <p id="response-message" class="fw-bold"></p>
+          </div>
         <div class="row" id="productGrid">
           <!-- Sản phẩm sẽ được thêm động -->
         </div>
-
         <nav>
             <ul class="pagination" id="pagination">
               <!-- Các nút phân trang sẽ được thêm động -->

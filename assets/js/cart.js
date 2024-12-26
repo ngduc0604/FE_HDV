@@ -27,8 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             const itemTotal = item.total_price; // Sử dụng giá trị tổng tiền từ API
                             totalAmount += itemTotal; // Cộng dồn tổng tiền của tất cả sản phẩm
-
+                            
                             const row = document.createElement('tr');
+                            row.setAttribute('data-product-id', item.product_id);
                             row.innerHTML = `
                                 <td><img src="${product.imgFileName}" alt="${product.name}" width="80"></td>
                                 <td>${product.name}</td>
@@ -131,8 +132,7 @@ async function updateQuantity(cd_id, newQuantity) {
 
 function updateTotalAmount() {
     const cartItemsContainer = document.getElementById('cartItems');
-    let totalAmount = 0;
-
+    let totalAmount = 0; 
     // Lặp qua các phần tử có lớp item-total và tính tổng tiền
     cartItemsContainer.querySelectorAll('.item-total').forEach(item => {
         const itemTotalText = item.innerText.replace(/\D/g, ''); // Loại bỏ các ký tự không phải số
@@ -141,15 +141,40 @@ function updateTotalAmount() {
             totalAmount += itemTotal;
         }
     });
-
     document.getElementById('totalAmount').innerText = `${totalAmount.toLocaleString('vi-VN')} VNĐ`;
 }
 
+async function removeItem(cartId) {
+    try {
+        const response = await fetch(`http://localhost:9090/deleleCartById/${cartId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
-function removeItem(cd_id) {
-    // Xóa sản phẩm khỏi giỏ hàng và cập nhật giao diện người dùng
-    console.log(`Remove item with ID: ${cd_id}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        console.log('Item removed successfully');
+        window.location.reload();
+
+        // Xóa phần tử khỏi DOM
+        const itemRow = document.querySelector(`button[onclick="removeItem(${cartId})"]`).closest('tr');
+        itemRow.remove();
+
+        // Cập nhật lại tổng tiền của giỏ hàng
+        updateTotalAmount();
+
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Đã xảy ra lỗi khi xóa sản phẩm khỏi giỏ hàng.');
+    }
 }
+
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -197,6 +222,7 @@ async function buy() {
     const customerData = localStorage.getItem('customer');
     const totalAmountElement = document.getElementById('totalAmount');
     const cartItemsContainer = document.getElementById('cartItems');
+
     if (!customerData) {
         alert('Không tìm thấy thông tin khách hàng trong localStorage');
         return;
@@ -244,11 +270,12 @@ async function buy() {
         const cartItems = cartItemsContainer.querySelectorAll('tr');
 
         for (const item of cartItems) {
-            const product_id = parseInt(item.querySelector('.quantity-controls input').getAttribute('data-id'));
+            const product_id = parseInt(item.getAttribute('data-product-id')); // Lấy product_id từ thẻ dữ liệu
             const quantity = parseInt(item.querySelector('.quantity-controls input').value);
             const priceText = item.querySelector('td:nth-child(3)').innerText.replace(/\D/g, ''); // Lấy giá sản phẩm
             const price = parseInt(priceText);
             const total = quantity * price;
+
             
             const orderDetailData = {
                 order_id: order_id,
@@ -256,7 +283,10 @@ async function buy() {
                 quantity: quantity,
                 total: total
             };
-            
+
+            console.log(orderDetailData);
+
+
             const orderDetailResponse = await fetch('http://localhost:9090/createOrderDetail', {
                 method: 'POST',
                 headers: {
@@ -284,6 +314,9 @@ async function buy() {
         alert('Đã xảy ra lỗi khi đặt hàng.');
     }
 }
+
+
+
 
 
 
