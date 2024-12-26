@@ -126,16 +126,57 @@ fetchProducts();
         }
     }
 
-    function buyNow(){
+    async function buy() {
         const customerData = localStorage.getItem('customer');
         if (!customerData) {
             alert('Vui lòng đăng nhập để thực hiện');
             window.location.href='pages-login.html';
             return;
         }else{
-            window.location.href = `buynow.html?id=${productId}`;
+
+        const quantityElement = document.getElementById('quantity');
+        const pr_id=parseInt(productId);
+        const quantity = parseInt(quantityElement.value);
+    
+        // Lấy thông tin customer từ localStorage
+        const customerData = localStorage.getItem('customer');
+        if (!customerData) {
+            alert('Vui lòng đăng nhập để thực hiện');
+            window.location.href='pages-login.html';
+            return;
+        }
+    
+        const customer = JSON.parse(customerData);
+        const customers_id = customer.customer_id;
+        
+        console.log(customers_id,pr_id,quantity);
+
+        try {
+            const response = await fetch('http://localhost:9090/addToCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    quantity: quantity,
+                    product_id: pr_id,
+                    customers_id: customers_id
+                })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Yêu cầu mạng không thành công');
+            }
+    
+        } catch (error) {
+            console.error('Lỗi:', error);
+            alert('Đã xảy ra lỗi khi thêm vào giỏ hàng.');
+        }
+            window.location.href = `cart.html`;
         }
     }
+
+
     
 
     

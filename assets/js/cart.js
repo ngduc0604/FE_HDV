@@ -61,14 +61,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         const itemId = input.getAttribute('data-id');
                         let newQuantity = parseInt(input.value);
 
-                        if (event.target.classList.contains('decrease') && newQuantity > 1) {
+                        if (event.target.classList.contains('decrease') && newQuantity > 0) {
                             newQuantity--;
                         } else if (event.target.classList.contains('increase')) {
                             newQuantity++;
                         }
 
-                        input.value = newQuantity;
-                        updateQuantity(itemId, newQuantity);
+                        if(newQuantity==0){
+                            removeItem(itemId);
+                        }else{
+                            input.value = newQuantity;
+                            updateQuantity(itemId, newQuantity);
+                        }
                     }
                 });
 
@@ -219,9 +223,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function buy() {
+
+    if (checkCartEmpty()) {
+        return;
+    }
+    
     const customerData = localStorage.getItem('customer');
     const totalAmountElement = document.getElementById('totalAmount');
     const cartItemsContainer = document.getElementById('cartItems');
+    
 
     if (!customerData) {
         alert('Không tìm thấy thông tin khách hàng trong localStorage');
@@ -302,9 +312,40 @@ async function buy() {
             const orderDetailResult = await orderDetailResponse.json();
             console.log('Order detail created successfully:', orderDetailResult);
         }
+        
+        const deletePromises = [];
+        for (const item of cartItems) {
+            const cartId = parseInt(item.querySelector('.quantity-controls input').getAttribute('data-id')); // Lấy cartId từ thẻ dữ liệu
 
+            if (cartId) { // Kiểm tra nếu cartId không null
+                const deletePromise = fetch(`http://localhost:9090/deleleCartById/${cartId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to delete cart item with ID: ' + cartId);
+                    }
+                    console.log('Deleted cart item with ID:', cartId);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                
+                deletePromises.push(deletePromise);
+            } else {
+                console.error('Cart ID is null, cannot remove item');
+            }
+        }
+
+        // Chờ tất cả các lời gọi API xóa hoàn tất
+        await Promise.all(deletePromises);
+        
         // Hiển thị thông báo thành công
         alert('Đặt hàng thành công!');
+        window.location.reload();
 
         // Sau khi đặt hàng thành công, bạn có thể muốn làm sạch giỏ hàng hoặc chuyển hướng người dùng
         // window.location.href = 'orderConfirmation.html'; // Ví dụ chuyển hướng đến trang xác nhận đơn hàng
@@ -316,7 +357,16 @@ async function buy() {
 }
 
 
-
+function checkCartEmpty() {
+    const cartItemsContainer = document.getElementById('cartItems');
+    const cartItems = cartItemsContainer.querySelectorAll('tr');
+    if (cartItems.length === 0) {
+        alert('Giỏ hàng của bạn đang trống.Hãy chọn sản phẩm yêu thích nhé');
+        window.location.href = 'list_product.html'; // Thay 'products.html' bằng trang sản phẩm của bạn
+        return true;
+    }
+    return false;
+}
 
 
 
