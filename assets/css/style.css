@@ -1238,12 +1238,14 @@ h6 {
 .account-menu {
   position: relative;
   display: inline-block;
+  width: 170px;
 }
 
 .account-icon {
   display: flex;
   align-items: center;
   cursor: pointer;
+  
 }
 
 .account-icon img {

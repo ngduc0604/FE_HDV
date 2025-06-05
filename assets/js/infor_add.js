@@ -40,10 +40,12 @@ async function displayCustomerInfo() {
         alert('Đã xảy ra lỗi khi lấy thông tin khách hàng: ' + error.message);
     }
 }
+
 // Gọi hàm displayCustomerInfo khi trang được tải
 document.addEventListener('DOMContentLoaded', displayCustomerInfo);
 
-  async function updateCustomer(event) {
+
+async function updateCustomer(event) {
       event.preventDefault();
       const newName = document.getElementById('fullName').value;
       const newPhone = document.getElementById('Phone').value;
@@ -63,7 +65,7 @@ document.addEventListener('DOMContentLoaded', displayCustomerInfo);
                   body: JSON.stringify({ name: newName, phone: newPhone, address:newAddress,email:newEmail })
               });
               if (response.ok) {
-                    window.location.href = 'account-info.html';
+                    window.location.href = 'account_admin.html';
               } else {
                   console.error('Failed to update ');
               }
@@ -73,7 +75,7 @@ document.addEventListener('DOMContentLoaded', displayCustomerInfo);
       }
   }
 
-function isStrongPassword(password) {
+  function isStrongPassword(password) {
   const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{5,}$/;
   return passwordRegex.test(password);
 }
@@ -127,7 +129,7 @@ async function changePassword(event) {
     if (response.ok && data.message) {
       alert(data.message);
       if (data.message.toLowerCase().includes("thanh cong")) {
-        window.location.href = "account-info.html";
+        window.location.href = "account_admin.html";
       }
     } else {
       alert(data.message || "Có lỗi xảy ra khi đổi mật khẩu.");
@@ -137,11 +139,3 @@ async function changePassword(event) {
     alert("Không thể kết nối đến server.");
   }
 }
-
-
-
-
-
-
-
-

@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <li><a href="home-page.html" id="logoutBtn">Đăng xuất</a></li>
         `;
 
-
         document.getElementById('logoutBtn').addEventListener('click', () => {
             localStorage.removeItem('loggedInUser'); // Xóa thông tin đăng nhập
 			localStorage.removeItem('role');

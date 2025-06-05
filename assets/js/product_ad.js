@@ -311,8 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
     menuItems.innerHTML = `
-            <li><a href="account-info.html">Thông tin tài khoản</a></li>
-            <li><a href="order-history.html">Đơn hàng</a></li>
+            <li><a href="account_admin.html">Thông tin tài khoản</a></li>
             <li><a href="home-page.html" id="logoutBtn">Đăng xuất</a></li>
         `;
 
